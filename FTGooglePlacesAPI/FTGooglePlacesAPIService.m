@@ -151,10 +151,10 @@ static BOOL FTGooglePlacesAPIDebugLoggingEnabled;
     [[[self class] sharedService] setSearchResultsItemClass:itemClass];
 }
 
-+ (void)executeSearchRequest:(id<FTGooglePlacesAPIRequest>)request
++ (AFHTTPRequestOperation *)executeSearchRequest:(id<FTGooglePlacesAPIRequest>)request
        withCompletionHandler:(FTGooglePlacesAPISearchRequestCompletionHandler)completion
 {
-    [[self class] executeRequest:request withCompletionHandler:^(NSDictionary *responseObject, NSError *error) {
+    return [[self class] executeRequest:request withCompletionHandler:^(NSDictionary *responseObject, NSError *error) {
         
         //  Networing, parsing or other general error
         if (error) {
@@ -181,10 +181,10 @@ static BOOL FTGooglePlacesAPIDebugLoggingEnabled;
     }];
 }
 
-+ (void)executeDetailRequest:(id<FTGooglePlacesAPIRequest>)request
++ (AFHTTPRequestOperation *)executeDetailRequest:(id<FTGooglePlacesAPIRequest>)request
        withCompletionHandler:(FTGooglePlacesAPIDetailRequestCompletionhandler)completion
 {
-    [[self class] executeRequest:request withCompletionHandler:^(NSDictionary *responseObject, NSError *error) {
+    return [[self class] executeRequest:request withCompletionHandler:^(NSDictionary *responseObject, NSError *error) {
         
         //  Networing, parsing or other general error
         if (error) {
@@ -216,7 +216,7 @@ static BOOL FTGooglePlacesAPIDebugLoggingEnabled;
 
 #pragma mark - Private class methods
 
-+ (void)executeRequest:(id<FTGooglePlacesAPIRequest>)request
++ (AFHTTPRequestOperation *)executeRequest:(id<FTGooglePlacesAPIRequest>)request
  withCompletionHandler:(void(^)(NSDictionary *responseObject, NSError *error))completion
 {
     NSAssert(completion, @"You must provide completion block for the Google Places API request execution. Performing request without handling does not make any sense.");
@@ -242,9 +242,9 @@ static BOOL FTGooglePlacesAPIDebugLoggingEnabled;
     AFHTTPRequestOperationManager *manager = service.httpRequestOperationManager;
     
     //  Perform request
-    [manager GET:requestPath
-      parameters:params
-         success:^(AFHTTPRequestOperation *operation, id responseObject)
+    return [manager GET:requestPath
+             parameters:params
+                success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          FTGPServiceLog(@"%@ request SUCCESS (Request URL: %@)", [self class], operation.request.URL);
          completion(responseObject, nil);

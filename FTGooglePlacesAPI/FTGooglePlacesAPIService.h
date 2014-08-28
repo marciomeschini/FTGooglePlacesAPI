@@ -32,6 +32,7 @@
 
 @class FTGooglePlacesAPISearchResponse;
 @class FTGooglePlacesAPIDetailResponse;
+@class AFHTTPRequestOperation;
 
 extern NSString *const FTGooglePlacesAPIBaseURL;
 
@@ -74,8 +75,8 @@ typedef void (^FTGooglePlacesAPIDetailRequestCompletionhandler)(FTGooglePlacesAP
  *  @param request Request object implementing FTGooglePlacesAPIRequest protocol. This will probably be either FTGooglePlacesAPINearbySearchRequest or FTGooglePlacesAPITextSearchRequest, but you are free to provide own request implementing requred FTGooglePlacesAPIRequest protocol
  *  @param completionBlock Completion block to be called after the request was finished. If everything went without problems, response will be non-nill and error will be nil. In case of failure, response will be nil and error will be either AFNetworking error caused by networking problem or error with FTGooglePlacesAPIErrorDomain domain indicating that the networking request was successfull, but Google Places API responded with non-OK status code
  */
-+ (void)executeSearchRequest:(id<FTGooglePlacesAPIRequest>)request
-       withCompletionHandler:(FTGooglePlacesAPISearchRequestCompletionHandler)completion;
++ (AFHTTPRequestOperation *)executeSearchRequest:(id<FTGooglePlacesAPIRequest>)request
+                           withCompletionHandler:(FTGooglePlacesAPISearchRequestCompletionHandler)completion;
 
 /**
  *  Asks the service to execute the given Google Places API Places Detail request.
@@ -83,8 +84,8 @@ typedef void (^FTGooglePlacesAPIDetailRequestCompletionhandler)(FTGooglePlacesAP
  *  @param request Request object implementing FTGooglePlacesAPIRequest protocol. This will probably be instance of FTGooglePlacesAPIDetailRequest, but you are free to provide own request implementing requred FTGooglePlacesAPIRequest protocol
  *  @param completion Completion block to be called after the request was finished. If everything went without problems, response will be non-nill and error will be nil. In case of failure, response will be nil and error will be either AFNetworking error caused by networking problem or error with FTGooglePlacesAPIErrorDomain domain indicating that the networking request was successfull, but Google Places API responded with non-OK status code
  */
-+ (void)executeDetailRequest:(id<FTGooglePlacesAPIRequest>)request
-       withCompletionHandler:(FTGooglePlacesAPIDetailRequestCompletionhandler)completion;
++ (AFHTTPRequestOperation *)executeDetailRequest:(id<FTGooglePlacesAPIRequest>)request
+                           withCompletionHandler:(FTGooglePlacesAPIDetailRequestCompletionhandler)completion;
 
 /**
  *  If set to YES and running in debug mode (#ifdef DEBUG), service will print some information
